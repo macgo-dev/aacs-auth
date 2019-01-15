@@ -15,6 +15,11 @@ if(APPLE)
     set(LIBS ${LIBS} "-framework CoreFoundation" "-framework IOKit")
 endif()
 
+if(WIN32)
+    set(SOURCES ${SOURCES} mmc_win.c)
+    set(LIBS ${LIBS} ws2_32)
+endif()
+
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE libressl/include)
 target_link_libraries(${PROJECT_NAME} ${LIBS})
