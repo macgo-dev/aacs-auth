@@ -198,18 +198,6 @@ static int aacs_auth(MMC* mmc, const uint8_t* host_cert, const uint8_t* host_pri
             fprintf(stderr, "Failed to send host key\n");
             goto err;
         }
-    } else {
-        if (AACS_Verify(&host_cert[12], host_sig, msg, sizeof(msg))) {
-            msg[0] ^= 0xFF;
-            if (AACS_Verify(&host_cert[12], host_sig, msg, sizeof(msg))) {
-                fprintf(stderr, "Failed to create an invalid host signature\n");
-                goto err;
-            }
-        }
-        if (MMC_send_host_key(mmc, agid, &msg[20], host_sig)) {
-            fprintf(stderr, "Drive does not fail with invalid host signature\n");
-            goto err;
-        }
     }
 
     ok = 1;
